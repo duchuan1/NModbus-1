@@ -8,9 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("NModbus")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyCopyright("Copyright © 2006 Scott Alexander, 2015 Dmitry Turin")]
-[assembly: AssemblyDescription("NModbus is a C# implementation of the Modbus protocol. " +
-           "Provides connectivity to Modbus slave compatible devices and applications. " +
-           "Supports ASCII, RTU, TCP, and UDP protocols. ")]
+[assembly: AssemblyDescription("NModbus is a C# implementation of the Modbus protocol. Provides connectivity to Modbus slave compatible devices and applications. Supports ASCII, RTU, TCP, and UDP protocols. \r\nAdd WeakCheck Switch")]
 
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

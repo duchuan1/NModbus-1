@@ -231,19 +231,20 @@ namespace NModbus.IO
             // always check the function code and slave address, regardless of transport protocol
             if (request.FunctionCode != response.FunctionCode)
             {
-                string msg = $"Received response with unexpected Function Code. Expected {request.FunctionCode}, received {response.FunctionCode}.";
+                string msg =
+                    $"Received response with unexpected Function Code. Expected {request.FunctionCode}, received {response.FunctionCode}.";
                 throw new IOException(msg);
             }
 
             if (request.SlaveAddress != response.SlaveAddress)
             {
-                string msg = $"Response slave address does not match request. Expected {request.SlaveAddress}, received {response.SlaveAddress}.";
+                string msg =
+                    $"Response slave address does not match request. Expected {request.SlaveAddress}, received {response.SlaveAddress}.";
                 throw new IOException(msg);
             }
 
             // message specific validation
             var req = request as IModbusRequest;
-
             if (req != null)
             {
                 req.ValidateResponse(response);

@@ -24,6 +24,7 @@
 	<NoWarn>1701;1702;1705;1591</NoWarn>
 	<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<PackageReleaseNotes />
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">

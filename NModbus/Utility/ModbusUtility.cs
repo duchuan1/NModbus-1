@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -10,6 +11,10 @@ namespace NModbus.Utility
     /// </summary>
     public static class ModbusUtility
     {
+        /// <summary>
+        /// 是否检查 Modbus 响应报文长度及禁止抛出NetworkBytesNotEven异常（数据不足时后面补0）
+        /// </summary>
+        public static bool IsWeakCheck { get; set; } = true;
         private static readonly ushort[] CrcTable =
         {
             0X0000, 0XC0C1, 0XC181, 0X0140, 0XC301, 0X03C0, 0X0280, 0XC241,
@@ -119,16 +124,38 @@ namespace NModbus.Utility
         /// <returns>The host order ushort array.</returns>
         public static ushort[] NetworkBytesToHostUInt16(byte[] networkBytes)
         {
+            return NetworkBytesToHostUInt16(networkBytes, IsWeakCheck);
+        }
+
+        /// <summary>
+        ///     Converts a network order byte array to an array of UInt16 values in host order.
+        /// </summary>
+        /// <param name="networkBytes">The network order byte array.</param>
+        /// <param name="isPadding">Padding data when data is not even</param>
+        /// <returns>The host order ushort array.</returns>
+        public static ushort[] NetworkBytesToHostUInt16(byte[] networkBytes, bool isPadding)
+        {
             if (networkBytes == null)
             {
                 throw new ArgumentNullException(nameof(networkBytes));
             }
 
+            List<byte> data = new List<byte>();
+            data.AddRange(networkBytes);
+
             if (networkBytes.Length % 2 != 0)
             {
-                throw new FormatException(Resources.NetworkBytesNotEven);
+                if (!isPadding)
+                {
+                    throw new FormatException(Resources.NetworkBytesNotEven);
+                }
+                else
+                {
+                    data.Add(0);
+                }
             }
 
+            networkBytes = data.ToArray();
             ushort[] result = new ushort[networkBytes.Length / 2];
 
             for (int i = 0; i < result.Length; i++)
@@ -138,7 +165,6 @@ namespace NModbus.Utility
 
             return result;
         }
-
         /// <summary>
         ///     Converts a hex string to a byte array.
         /// </summary>

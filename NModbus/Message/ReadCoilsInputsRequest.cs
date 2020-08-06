@@ -57,7 +57,10 @@ namespace NModbus.Message
             if (expectedByteCount != typedResponse.ByteCount)
             {
                 string msg = $"Unexpected byte count. Expected {expectedByteCount}, received {typedResponse.ByteCount}.";
-                throw new IOException(msg);
+                if (!Utility.ModbusUtility.IsWeakCheck)
+                {
+                    throw new IOException(msg);
+                }
             }
         }
 
